@@ -1,2 +1,2 @@
 # fpl
-Fast handwritten programming language 
+Development branch
