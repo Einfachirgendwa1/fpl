@@ -56,7 +56,7 @@ while index < len(file_contents):
         exit(1)
     
     if character == "s":
-        # set[variable][value]
+        # set[variable](value)
         next_character()
         if character not in variables:
             print(f"{character} at {index} is not a variable.")
@@ -82,6 +82,37 @@ while index < len(file_contents):
         if value.isdigit():
             value = int(value)
         
+        variables[variable_name] = value
+    
+    if character == "a":
+        # add[variable](value)
+        variable_name = None
+        try:
+            next_character()
+        except IndexError:
+            print(f"ADD at {index} missing a variable.")
+        else:
+            if character in variables:
+                variable_name = variables[character]
+            else:
+                print(f"No variable {variable_name} found (Index: {index})")
+        
+        if variable_name is None:
+            exit(1)
+
+        value = ""
+
+        while index+1 < len(file_contents) and not character.isspace():
+            value += character
+            next_character()
+        
+        if index+1 == len(file_contents):
+            value += character
+
+
+        if value.isdigit():
+            value = int(value)
+
         variables[variable_name] = value
     
     index += 1
