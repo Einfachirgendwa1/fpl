@@ -167,9 +167,68 @@ while index < len(file_contents):
             continue
         else:
             break
-        
+    
+    if character == "P":
+        # print[weird confusing string]
+        try:
+            next_character()
+        except IndexError:
+            print(f"Expected something to print at index {index}")
+            break
+
+        success = True
+        while index+1 < len(file_contents):
+            if character == "$":
+                variable_name = ""
+                while index+1 < len(file_contents) and character != ".":
+                    variable_name += character
+                    next_character()
+                # Remove the $
+                variable_name = variable_name[1:]
+                if variable_name not in variables:
+                    print(f"Unknown variable {variable_name} at index {index}")
+                    success = False
+                    break
+                else:
+                    print(variables[variable_name], end="")
+            elif character == ".":
+                print()
+                break
+            elif character == "\\":
+                try:
+                    next_character()
+                except IndexError:
+                    print("\\")
+                    break
+                else:
+                    
+                    if character == "n":
+                        print("\n", end="")
+                    elif character == "t":
+                        print("\t", end="")
+                try:
+                    next_character()
+                except IndexError:
+                    break
+                else:
+                    continue
+
+            print(character, end="")
+            next_character()
+
+        print(character, end="")
+
+        if not success:
+            break
+
+        try:
+            next_character()
+        except IndexError:
+            break
+        else:
+            continue
 
     print(f"Invalid command: {character}")
     break
 
-print(variables)
+# print(variables)
