@@ -99,6 +99,60 @@ while index < len(file_contents):
         else:
             continue
     
+    if character == "S":
+        # S[Variable](,Value).
+        variable_name = ""
+        value = ""
+
+        while index+1 < len(file_contents) and not (character == "," or character == "."):
+            next_character()
+            variable_name += character
+        
+        if index+1 == len(file_contents):
+            print(f"Expected a variable name at index {index}")
+            break
+        
+        # Remove the "," or "."
+        variable_name = variable_name[:len(variable_name)-1]
+
+        while variable_name and variable_name[0].isspace():
+            variable_name = variable_name[1:]
+
+        if character == ".":
+            variables[variable_name] = 0
+            try:
+                next_character()
+            except IndexError:
+                break
+            else:
+                continue
+
+        try:
+            next_character()
+            while character.isspace():
+                next_character()
+        except IndexError:
+            print(f"Expected a value at index {index}")
+            break
+
+        value += character
+        while index+1 < len(file_contents) and character != ".":
+            next_character()
+            value += character
+        
+        
+        if character == ".":
+            value = value[:len(value)-1]
+        
+        variables[variable_name] = value
+        try:
+            next_character()
+        except IndexError:
+            break
+        else:
+            continue
+        
+
     print(f"Invalid command: {character}")
     break
 
