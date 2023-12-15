@@ -151,6 +151,22 @@ while index < len(file_contents):
             break
         else:
             continue
+    
+    if character == "p":
+        # print[variable]
+        if index+1 == len(file_contents):
+            print(f"Expected variable to print at index {index}")
+            break
+        
+        next_character()
+        variable_name = character
+        print(variables[variable_name])
+
+        if index+1 < len(file_contents):
+            next_character()
+            continue
+        else:
+            break
         
 
     print(f"Invalid command: {character}")
